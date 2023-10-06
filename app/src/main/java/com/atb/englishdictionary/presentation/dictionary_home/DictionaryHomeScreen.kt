@@ -1,8 +1,10 @@
 package com.atb.englishdictionary.presentation.dictionary_home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -122,15 +124,21 @@ fun DictionaryHomeScreen(
                     )
                 }
             }
-            LazyColumn {
-                items(state.value.history) {history ->
-                    DictionaryHistoryItem(
-                        history = history.uppercase(),
-                        onHistoryItemClick = {word ->
-                             navigateToWordDetail(word)
-                        }
-                    )
-                    Divider()
+            if (state.value.history.isEmpty()) {
+                Box(modifier = Modifier.fillMaxHeight()) {
+                    Text(text = "Empty", fontSize = 24.sp)
+                }
+            } else {
+                LazyColumn {
+                    items(state.value.history) {history ->
+                        DictionaryHistoryItem(
+                            history = history.uppercase(),
+                            onHistoryItemClick = {word ->
+                                navigateToWordDetail(word)
+                            }
+                        )
+                        Divider()
+                    }
                 }
             }
         }
